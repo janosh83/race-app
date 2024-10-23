@@ -1,10 +1,18 @@
-const express = require('express');
-const app = express();
+// just to test connection to database
 
-app.get('/', (req, res) => {
-    res.send("Hello from Docker!");
+const { Sequelize } = require('sequelize');
+
+// Konfigurace připojení k databázi
+const sequelize = new Sequelize('raceapp', 'postgres', 'password', {
+  host: 'postgres',
+  dialect: 'postgres',
+  port: 5432
 });
 
-const PORT = 3000;
-app.listen(PORT);
-console.log(`Port: ${PORT}`);
+sequelize.authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });
